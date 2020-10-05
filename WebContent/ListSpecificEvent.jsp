@@ -38,7 +38,8 @@
 				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_numberofattendees} </td> 
 				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_capacity} </td> 
 				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_eventcoordinator} </td> 
-				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_type} </td> 
+				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_type} </td>
+				<td class="myTableCell" style="width: 130px; "><a href="modifyevent.jsp">modify</a></td> 
 
 		</tr>
 	</table>

@@ -81,6 +81,37 @@ public  class EventDAO {
 		System.out.println(query);
 		return ReturnMatchingEventsList(query);
 	}
+	public static void modifyEvent(Event event) {
+		// TODO Auto-generated method stub
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection(); 
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate("UPDATE cruise_activity.events SET EVENT_DATE='"+event.getM_event_date()+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+event.getM_event_name()+"'");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void modifyEventName(Event event, String oldEventName) {
+		// TODO Auto-generated method stub
+		
+		Statement stmt = null;
+		System.out.println("UPDATE cruise_activity.events SET EVENT_NAME = '"+event.getM_event_name()+"', EVENT_DATE='"+event.getM_event_date()+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"'");
+		Connection conn = SQLConnection.getDBConnection();
+		try {
+		stmt = conn.createStatement();
+		//String updateStmt = ;
+		//boolean res = stmt.execute(updateStmt);
+		int rows = stmt.executeUpdate("UPDATE cruise_activity.events SET EVENT_NAME = '"+event.getM_event_name()+"', EVENT_DATE='"+event.getM_event_date()+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"'");
+		conn.commit();
+		System.out.println("rows impacted: " + rows);
+		System.out.println(stmt);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	
 	/*

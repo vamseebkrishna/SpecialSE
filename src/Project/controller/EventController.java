@@ -17,7 +17,12 @@ import Project.model.*;
 @WebServlet("/EventController")
 public class EventController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
+	private void getEventParam (HttpServletRequest request, Event event) {
+		event.setEvent(request.getParameter("eventname"), request.getParameter("eventdate"), request.getParameter("starttime"), 
+				request.getParameter("firstname"), request.getParameter("location"), request.getParameter("attendees"), 
+				request.getParameter("capacity"), request.getParameter("coordinator"), request.getParameter("evetype"));
+	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -86,7 +91,7 @@ public class EventController extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		else { // action=listSpecificCompany
+		else if(action.equalsIgnoreCase("listSpecificEvent")) { // action=listSpecificCompany
 			ArrayList<Event> companyInDB = new ArrayList<Event>();
 			Event selectedEvent= new Event();
 			
@@ -104,7 +109,8 @@ public class EventController extends HttpServlet {
 				  companyInDB.get(selectedEventIndex).getM_eventcoordinator(),
 				  companyInDB.get(selectedEventIndex).getM_type() ); 
 				  session.setAttribute("Selected_Event", selectedEvent); 
-				  System.out.println(selectedEvent.getM_event_name()); 
+				  System.out.println(selectedEvent.getM_event_name());
+				  session.setAttribute("eventName", selectedEvent.getM_event_name());
 				  url = "/ListSpecificEvent.jsp"; 
 			  
 			  } 
@@ -115,10 +121,33 @@ public class EventController extends HttpServlet {
 			 * errorMsgs); url = "/EventsManagerHomepage.jsp"; }
 			 */
 			  
-			  getServletContext().getRequestDispatcher(url).forward(request, response);
-			}
 			  
-		
+			}
+		else if(action.equalsIgnoreCase("updateEvent"))
+		{
+			getEventParam(request, event);
+			event.validateEvent("updateEvent", event, CerrorMsgs);
+			String oldEventName = (String) session.getAttribute("eventName");
+			if(!CerrorMsgs.getM_errorMsg().equals("")) {
+				session.setAttribute("event", event);
+				session.setAttribute("errorMsgs", CerrorMsgs);
+				url = "/modifyevent.jsp";
+			}
+			else {
+				//CerrorMsgs.setM_errorMsg("Modified Successfully");
+				if(oldEventName.equals(event.getM_event_name())) {
+					EventDAO.modifyEvent(event);
+				}
+				else {
+					EventDAO.modifyEventName(event, oldEventName);
+				}
+				session.setAttribute("EVENTS", event);
+				url = "/EventSummaryPage.jsp";
+				
+			}
+			
+		}
+		getServletContext().getRequestDispatcher(url).forward(request, response);
 			
 		}
 
