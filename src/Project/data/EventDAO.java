@@ -76,8 +76,8 @@ public  class EventDAO {
 	 * "lakshmi", "Athletic", "Deck 9"); events.add(event); return events; }
 	 */ 
 	
-	public static ArrayList<Event>  searchEvent() {  
-		String query = "SELECT * FROM cruise_activity.events";	
+	public static ArrayList<Event>  searchEvent(String eventDate, String eventTime ) {  
+		String query = "SELECT * FROM cruise_activity.events where EVENT_DATE > '"+eventDate+"' && START_TIME > '"+eventTime+"'";	
 		System.out.println(query);
 		return ReturnMatchingEventsList(query);
 	}

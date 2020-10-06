@@ -1,7 +1,10 @@
 package Project.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,15 +43,37 @@ public class EventController extends HttpServlet {
 		int selectedEventIndex;
 
 		if (action.equalsIgnoreCase("listEvents")) {
-
+			String feventDate = null;
 			String eventDate = request.getParameter("event_date");
 			String eventTime = request.getParameter("event_time");
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//			
+			DateFormat parser = new SimpleDateFormat("MM/dd/yyyy");
+			try {
+				Date date = (Date) parser.parse(eventDate);
+			
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				feventDate = formatter.format(date);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+//			
+			//String d = sdf.format(eventDate);
+//			try {
+//				java.util.Date langDate = sdf.parse("eventDate");
+//				java.sql.Date sqlDate = new java.sql.Date(langDate.getTime());
+//			} catch (ParseException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+			
 			session.removeAttribute("errorMsgs");
 			event.setEvent("", eventDate, eventTime, "", "", "", "", "", "");
 			event.validateEvent(action, event, CerrorMsgs);
 			if (CerrorMsgs.getM_errorMsg().equals("")) {
 				if (!eventDate.equals("") && !eventTime.equals("")) {
-					eventInDB = EventDAO.searchEvent();
+					eventInDB = EventDAO.searchEvent(feventDate, eventTime);
 				//	session.setAttribute("EVENTS", );
 					System.out.println("SIZE"+eventInDB.size());
 					System.out.println("came till here");
