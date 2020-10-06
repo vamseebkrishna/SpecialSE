@@ -81,13 +81,13 @@ public  class EventDAO {
 		System.out.println(query);
 		return ReturnMatchingEventsList(query);
 	}
-	public static void modifyEvent(Event event) {
+	public static void modifyEvent(Event event, String oldEventName) {
 		// TODO Auto-generated method stub
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection(); 
 		try {
 			stmt = conn.createStatement();
-			stmt.executeUpdate("UPDATE cruise_activity.events SET EVENT_DATE='"+event.getM_event_date()+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+event.getM_event_name()+"'");
+			stmt.executeUpdate("UPDATE cruise_activity.events SET EVENT_DATE='"+event.getM_event_date()+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"'");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -17,12 +17,12 @@
 				</tr>
 				<tr>
 					<td>Event Date</td>
-					<td><input type="date" name="eventdate" value="${Selected_Event.m_event_date}"/></td>
+					<td><input type="text" name="eventdate" value="${Selected_Event.m_event_date}"/></td>
 					<td> <input name="passwordError" value='${errorMsgs.passwordError}' class="errorMsg"> </td>
 				</tr>
 				<tr>
 					<td>Start Time</td>
-					<td><input type="time" name="starttime" value="${Selected_Event.m_start_time}"/></td>
+					<td><input type="text" name="starttime" value="${Selected_Event.m_start_time}"/></td>
 					<td> <input name="userLastError" value= '${errorMsgs.userLastError}' class="errorMsg"> </td>
 				</tr>
 					<tr>
@@ -52,7 +52,7 @@
 				</tr>
 				<tr>
 				<td><label for="evetype">Type</label></td>
-					<td>${Selected_Event.m_type}
+					<td>${Selected_Event.m_type}</span>
 					</td>
 					<td> <input name="userSelectError" value='${errorMsgs.userSelectError}' class="errorMsg"> </td>
 				</tr>

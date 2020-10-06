@@ -23,7 +23,7 @@ public class EventController extends HttpServlet {
 	
 	private void getEventParam (HttpServletRequest request, Event event) {
 		event.setEvent(request.getParameter("eventname"), request.getParameter("eventdate"), request.getParameter("starttime"), 
-				request.getParameter("firstname"), request.getParameter("location"), request.getParameter("attendees"), 
+				request.getParameter("duration"), request.getParameter("location"), request.getParameter("attendees"), 
 				request.getParameter("capacity"), request.getParameter("coordinator"), request.getParameter("evetype"));
 	}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -74,6 +74,25 @@ public class EventController extends HttpServlet {
 			if (CerrorMsgs.getM_errorMsg().equals("")) {
 				if (!eventDate.equals("") && !eventTime.equals("")) {
 					eventInDB = EventDAO.searchEvent(feventDate, eventTime);
+					
+					for (int i = 0; i < eventInDB.size(); i++) {
+						String fdateItem = null;
+						String dateItem = eventInDB.get(i).getM_event_date();
+						if(dateItem != null) {
+							DateFormat p = new SimpleDateFormat("yyyy-MM-dd");
+							try {
+								Date d = (Date) p.parse(dateItem);
+								DateFormat f = new SimpleDateFormat("MM/dd/yyyy");
+								fdateItem = f.format(d);
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							
+						}
+						eventInDB.get(i).setM_event_date(fdateItem);
+					}
+					
 				//	session.setAttribute("EVENTS", );
 					System.out.println("SIZE"+eventInDB.size());
 					System.out.println("came till here");
@@ -160,12 +179,7 @@ public class EventController extends HttpServlet {
 			}
 			else {
 				//CerrorMsgs.setM_errorMsg("Modified Successfully");
-				if(oldEventName.equals(event.getM_event_name())) {
-					EventDAO.modifyEvent(event);
-				}
-				else {
-					EventDAO.modifyEventName(event, oldEventName);
-				}
+					EventDAO.modifyEvent(event, oldEventName);
 				session.setAttribute("EVENTS", event);
 				url = "/EventSummaryPage.jsp";
 				

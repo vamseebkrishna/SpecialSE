@@ -107,7 +107,7 @@ public class Event implements Serializable {
 	}
 
 	public void validateEvent(String action, Event event, EventErrorMsgs errorMsgs) {
-		if (action.equals("listEvents")) {
+		if (action.equals("listEvents") || action.equalsIgnoreCase("updateEvent")) {
 			if (event.getM_event_date().equals("") && event.getM_start_time().equals(""))
 			{
 				errorMsgs.setM_event_dateError("event date cannot be blank");
