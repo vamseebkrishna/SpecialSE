@@ -103,7 +103,7 @@ public class EventController extends HttpServlet {
 					session.setAttribute("EVENTS", eventInDB);
 					//System.out.println(session.getAttribute("EVENTS"));
 					//ArrayList<Event> eventslist=session.getAttribute("EVENTS");
-					getServletContext().getRequestDispatcher("/EventSummaryPage.jsp").forward(request, response);
+					url="/EventSummaryPage.jsp";
 				}
 			} else {
 				session.setAttribute("event", event);

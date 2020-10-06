@@ -109,7 +109,7 @@ public class UserController extends HttpServlet {
 				System.out.println("Im here with codri");
 				getServletContext().getRequestDispatcher("/EventsCoordinatorHomepage.jsp").forward(request, response);
 			}
-			String currentdate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+			String currentdate = new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
 			String currentTime =new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 			Event event = new Event();
 			
