@@ -121,8 +121,22 @@ public class EventController extends HttpServlet {
 			ArrayList<Event> list = new ArrayList<Event>();
 			Event e = new Event();
 			list=(ArrayList<Event>)session.getAttribute("EVENTS");
+			String evename = list.get(0).getM_event_name();
+			String evedate = list.get(0).getM_event_date();
+			DateFormat dt = new SimpleDateFormat("MM/dd/yyyy");
+			Date x = null;
+			try {
+				x = (Date) dt.parse(evedate);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			DateFormat fdt = new SimpleDateFormat("yyyy-MM-dd");
+			String evefdt = fdt.format(x);
+			String evetime = list.get(0).getM_start_time();
 			String oldcname = (String) session.getAttribute("oldcname");
-			String newcname = EventDAO.update(FirstName, LastName, oldcname);
+			String newcname = EventDAO.selectcrd(FirstName, LastName);
+			EventDAO.update(newcname, oldcname, evename, evefdt, evetime);
 			
 			e.setEvent(list.get(0).getM_event_name(), list.get(0).getM_event_date(), 
 					list.get(0).getM_start_time(), list.get(0).getM_duration(), 

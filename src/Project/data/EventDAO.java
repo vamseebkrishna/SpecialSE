@@ -46,7 +46,7 @@ public  class EventDAO {
 		System.out.println(eventListInDB);
 		return eventListInDB;
 	}
-	public static String update(String firstname,String lastname, String oldcname) {  
+	public static String selectcrd(String firstname,String lastname) {  
 		String cuname = null;
 		Statement stmt = null;   
 		Connection conn = null;  
@@ -61,19 +61,31 @@ public  class EventDAO {
 			
 			
 			}
-			conn = SQLConnection.getDBConnection();  
-			stmt = conn.createStatement();
-			String updateCoordinator = " UPDATE cruise_activity.events SET COORDINATOR='"+cuname+"' WHERE COORDINATOR ='"+oldcname+"' ";
-			int rows = stmt.executeUpdate(updateCoordinator);
-			System.out.println(rows);
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		return cuname;	 
-		  
+		return cuname;
 	}
+	
+	public static void update(String cuname, String oldcname, String evename, String evedate, String evetime) {
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+		System.out.println(" UPDATE cruise_activity.events SET COORDINATOR='"+cuname+"' WHERE COORDINATOR ='"+oldcname+"' && EVENT_NAME = '"+evename+"' && EVENT_DATE = '"+evedate+"' && START_TIME = '"+evetime+"' ");
+		try {
+		  
+		stmt = conn.createStatement();
+		int rows = stmt.executeUpdate(" UPDATE cruise_activity.events SET COORDINATOR='"+cuname+"' WHERE COORDINATOR ='"+oldcname+"' && EVENT_NAME = '"+evename+"' && EVENT_DATE = '"+evedate+"' && START_TIME = '"+evetime+"' ");
+		conn.commit();
+		System.out.println(rows);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+		  
+	
 
 	/*
 	 * public static ArrayList<Event> searchEvent(String eventDate, String
