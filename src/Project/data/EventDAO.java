@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import com.mysql.cj.Session;
+
 import Project.model.Event;
 import Project.model.User;
 import Project.util.SQLConnection;
@@ -44,22 +46,29 @@ public  class EventDAO {
 		System.out.println(eventListInDB);
 		return eventListInDB;
 	}
-	public static Boolean update(String username,String x) {  
+	public static String update(String firstname,String lastname, String oldcname) {  
+		String cuname = null;
 		Statement stmt = null;   
 		Connection conn = null;  
-		conn = SQLConnection.getDBConnection();  
 		try {
+			conn = SQLConnection.getDBConnection();  
 			stmt = conn.createStatement();
-			String a="Select * from cruise_activity.system_user";
-			ResultSet y=stmt.executeQuery(a);
-			while (y.next()) {
-			System.out.println(y.getString("EVENT_NAME"));}
-			String searchUser = " UPDATE cruise_activity.system_user SET COORDINATOR='"+username+"' WHERE COORDINATOR ='"+x+"' ";
-			ResultSet userList = stmt.executeQuery(searchUser);
-			if (!userList.next()) return false;
-			 
-		} catch (SQLException e) {}  
-		return true;
+			String cusername="Select USERNAME from cruise_activity.system_user where FIRSTNAME = '"+firstname+"' and LASTNAME = '"+lastname+"'";
+			ResultSet cuser = stmt.executeQuery(cusername);
+			while (cuser.next()) {
+			cuname = cuser.getString("USERNAME");
+			System.out.println(cuname);
+			String updateCoordinator = " UPDATE cruise_activity.events SET COORDINATOR='"+cuname+"' WHERE COORDINATOR ='"+oldcname+"' ";
+			int rows = stmt.executeUpdate(updateCoordinator);
+			
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cuname;	 
+		  
 	}
 
 	/*

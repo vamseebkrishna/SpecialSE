@@ -115,25 +115,25 @@ public class EventController extends HttpServlet {
 		}
 
 		else if(action.equals("updateEventCoordinator")) {
+			//ArrayList<Event> list = new ArrayList<Event>();
 			String FirstName = request.getParameter("FirstName");
 			String LastName = request.getParameter("LastName");
-			String x="jerry";
-			EventDAO.update(FirstName,x);
-			System.out.println("There are no error msgs, hence im in insert block");
+			ArrayList<Event> list = new ArrayList<Event>();
+			Event e = new Event();
+			list=(ArrayList<Event>)session.getAttribute("EVENTS");
+			String oldcname = (String) session.getAttribute("oldcname");
+			String newcname = EventDAO.update(FirstName, LastName, oldcname);
 			
-//			try {
-//				Thread.sleep(10000);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			
-			try {
-				getServletContext().getRequestDispatcher("/ListSpecificEvent.jsp").forward(request, response);
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
+			e.setEvent(list.get(0).getM_event_name(), list.get(0).getM_event_date(), 
+					list.get(0).getM_start_time(), list.get(0).getM_duration(), 
+					list.get(0).getM_location(), list.get(0).getM_numberofattendees(), list.get(0).getM_capacity(), 
+					newcname, list.get(0).getM_type());
+			session.setAttribute("Selected_Event", e); 
+			System.out.println(e.getM_eventcoordinator());
+			url="/ListSpecificEvent.jsp";
+			//System.out.println("There are no error msgs, hence im in insert block");
+			url = "/ListSpecificEvent.jsp";
+			//			
 		}
 		else if(action.equalsIgnoreCase("listSpecificEvent")) { // action=listSpecificCompany
 			ArrayList<Event> companyInDB = new ArrayList<Event>();
@@ -155,6 +155,7 @@ public class EventController extends HttpServlet {
 				  session.setAttribute("Selected_Event", selectedEvent); 
 				  System.out.println(selectedEvent.getM_event_name());
 				  session.setAttribute("eventName", selectedEvent.getM_event_name());
+				  session.setAttribute("oldcname", selectedEvent.getM_eventcoordinator());
 				  url = "/ListSpecificEvent.jsp"; 
 			  
 			  } 
