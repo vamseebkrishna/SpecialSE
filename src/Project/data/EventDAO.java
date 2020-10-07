@@ -58,10 +58,14 @@ public  class EventDAO {
 			while (cuser.next()) {
 			cuname = cuser.getString("USERNAME");
 			System.out.println(cuname);
-			String updateCoordinator = " UPDATE cruise_activity.events SET COORDINATOR='"+cuname+"' WHERE COORDINATOR ='"+oldcname+"' ";
-			int rows = stmt.executeUpdate(updateCoordinator);
+			
 			
 			}
+			conn = SQLConnection.getDBConnection();  
+			stmt = conn.createStatement();
+			String updateCoordinator = " UPDATE cruise_activity.events SET COORDINATOR='"+cuname+"' WHERE COORDINATOR ='"+oldcname+"' ";
+			int rows = stmt.executeUpdate(updateCoordinator);
+			System.out.println(rows);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
