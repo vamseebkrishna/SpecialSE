@@ -54,7 +54,7 @@
 				<td><label for="memtype">Membership Type</label></td>
 					<td><span name = "memtype"><c:out value='${loginU.memtype}' /></span>
 					</td>
-					<td> <input name="userSelectError" value="<c:out value='${errorMsgs.userSelectError}' /> class="errorMsg"> </td>
+					<td> <input name="userSelectError" value="<c:out value='${errorMsgs.userSelectError}' />" class="errorMsg"> </td>
 				</tr>
 				</table>
 			<input type="submit" value="Submit" onclick="return updateconfirm()"/>

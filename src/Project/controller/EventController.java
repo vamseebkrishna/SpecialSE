@@ -121,27 +121,18 @@ public class EventController extends HttpServlet {
 			ArrayList<Event> list = new ArrayList<Event>();
 			Event e = new Event();
 			list=(ArrayList<Event>)session.getAttribute("EVENTS");
-			String evename = list.get(0).getM_event_name();
-			String evedate = list.get(0).getM_event_date();
-			DateFormat dt = new SimpleDateFormat("MM/dd/yyyy");
-			Date x = null;
-			try {
-				x = (Date) dt.parse(evedate);
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			DateFormat fdt = new SimpleDateFormat("yyyy-MM-dd");
-			String evefdt = fdt.format(x);
-			String evetime = list.get(0).getM_start_time();
+			String evename = (String) session.getAttribute("eventName");
+			String evedate = (String) session.getAttribute("updatedDate");
+			
+			String evetime = (String) session.getAttribute("updatedTime");
 			String oldcname = (String) session.getAttribute("oldcname");
 			String newcname = EventDAO.selectcrd(FirstName, LastName);
-			EventDAO.update(newcname, oldcname, evename, evefdt, evetime);
+			EventDAO.update(newcname, oldcname, evename, evedate, evetime);
 			
-			e.setEvent(list.get(0).getM_event_name(), list.get(0).getM_event_date(), 
-					list.get(0).getM_start_time(), list.get(0).getM_duration(), 
-					list.get(0).getM_location(), list.get(0).getM_numberofattendees(), list.get(0).getM_capacity(), 
-					newcname, list.get(0).getM_type());
+			e.setEvent((String) session.getAttribute("eventName"), list.get((int) session.getAttribute("selectedEventIndex")).getM_event_date(), 
+					list.get((int) session.getAttribute("selectedEventIndex")).getM_start_time(), list.get((int) session.getAttribute("selectedEventIndex")).getM_duration(), 
+					list.get((int) session.getAttribute("selectedEventIndex")).getM_location(), list.get((int) session.getAttribute("selectedEventIndex")).getM_numberofattendees(), list.get((int) session.getAttribute("selectedEventIndex")).getM_capacity(), 
+					newcname, list.get((int) session.getAttribute("selectedEventIndex")).getM_type());
 			session.setAttribute("Selected_Event", e); 
 			System.out.println(e.getM_eventcoordinator());
 			url="/ListSpecificEvent.jsp";
@@ -156,6 +147,7 @@ public class EventController extends HttpServlet {
 			  if (request.getParameter("radioEvent") != null) 
 			  { 
 				  selectedEventIndex = Integer.parseInt(request.getParameter("radioEvent")) - 1; 
+				  session.setAttribute("selectedEventIndex", selectedEventIndex);
 				  companyInDB=(ArrayList<Event>)session.getAttribute("EVENTS");
 				  selectedEvent.setEvent(companyInDB.get(selectedEventIndex).getM_event_name(),
 				  companyInDB.get(selectedEventIndex).getM_event_date(),
@@ -186,6 +178,20 @@ public class EventController extends HttpServlet {
 		{
 			getEventParam(request, event);
 			
+			String newdate = event.getM_event_date();
+			String newtime = event.getM_start_time();
+			session.setAttribute("updatedTime", newtime);
+			DateFormat ab = new SimpleDateFormat("MM/dd/yyyy"); 
+			Date bc = null;
+			try {
+			bc = (Date) ab.parse(newdate);
+			}
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+			DateFormat cd = new SimpleDateFormat("yyyy-MM-dd");
+			String updatedDate = cd.format(bc);
+			session.setAttribute("updatedDate", updatedDate);
 			event.validateEvent("updateEvent", event, CerrorMsgs);
 			String oldEventName = (String) session.getAttribute("eventName");
 			if(!CerrorMsgs.getM_errorMsg().equals("")) {
@@ -196,10 +202,9 @@ public class EventController extends HttpServlet {
 			else {
 				//CerrorMsgs.setM_errorMsg("Modified Successfully");
 				ArrayList<Event> li = new ArrayList<Event>();
-				li=(ArrayList<Event>)session.getAttribute("EVENTS");
-				String evetime = li.get(0).getM_start_time();
-				String evedate = li.get(0).getM_event_date();
-				
+				li=(ArrayList)session.getAttribute("EVENTS");
+				String evetime = li.get((int) session.getAttribute("selectedEventIndex")).getM_start_time();
+				String evedate = li.get((int) session.getAttribute("selectedEventIndex")).getM_event_date();
 				DateFormat a = new SimpleDateFormat("MM/dd/yyyy"); 
 				Date b = null;
 				try {
@@ -214,7 +219,7 @@ public class EventController extends HttpServlet {
 					EventDAO.modifyEvent(event, oldEventName, evetime, edate);
 					event.setM_capacity(li.get(0).getM_capacity());
 					event.setM_duration(li.get(0).getM_duration());
-					event.setM_event_name(li.get(0).getM_event_name());
+					event.setM_event_name((String) session.getAttribute("eventName"));
 					event.setM_eventcoordinator(li.get(0).getM_eventcoordinator());
 					event.setM_location(li.get(0).getM_location());
 					event.setM_numberofattendees(li.get(0).getM_numberofattendees());

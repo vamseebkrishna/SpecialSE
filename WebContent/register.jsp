@@ -37,7 +37,7 @@
 				</tr>
 				<tr>
 					<td>Email</td>
-					<td><input type="text" name="email" value="<c:out value='${user.email}' "/></td>
+					<td><input type="text" name="email" value="<c:out value='${user.email}' />" ></td>
 					<td> <input name="userEmailError" value='${errorMsgs.userEmailError}' class="errorMsg"> </td>
 				</tr>
 				<tr>

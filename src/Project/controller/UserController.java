@@ -105,7 +105,10 @@ public class UserController extends HttpServlet {
 				System.out.println("HERE");
 				getServletContext().getRequestDispatcher("/EventsManagerHomepage.jsp").forward(request, response);			
 				}
-			else if (user.getUsername().equalsIgnoreCase("davidf")) {
+			else if (user.getUsername().equalsIgnoreCase("sethgreen") || user.getUsername().equalsIgnoreCase("ivanadams") ||
+					user.getUsername().equalsIgnoreCase("wadeallen") || user.getUsername().equalsIgnoreCase("jenniferaniston") ||
+					user.getUsername().equalsIgnoreCase("margotrobbie") || user.getUsername().equalsIgnoreCase("angelinajolie") ||
+					user.getUsername().equalsIgnoreCase("annehathaway") || user.getUsername().equalsIgnoreCase("emmastone")) {
 				session.setAttribute("coordinator", user.getUsername());
 				System.out.println("Im here with co-ordinator");
 				String currentdate = new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());

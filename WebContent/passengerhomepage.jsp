@@ -21,13 +21,13 @@
 	<tr>
 	<tr>
   	<td> Event date: </td>
- 	<td> <input name="event_date" value='${dateevent.m_event_date}' class="text45">  </td>
-  	<td> <input name="event_date_error"  value='${eventerrmsg.m_event_dateError}'  class="errorMsg"> </td>
+ 	<td> <input name="event_date" value="<c:out value='${dateevent.m_event_date}' />" class="text45">  </td>
+  	<td> <input name="event_date_error"  value="<c:out value='${eventerrmsg.m_event_dateError}' />"   class="errorMsg"> </td>
 	</tr>
     <tr>
     <td> Event time: </td>
-    <td> <input name="event_time" value='${dateevent.m_start_time}' class="text16"> </td>
-  	<td> <input name="event_time_error"  value='${eventerrmsg.m_start_timeError}'  class="errorMsg"> </td>
+    <td> <input name="event_time" value="<c:out value='${dateevent.m_start_time}' />"  class="text16"> </td>
+  	<td> <input name="event_time_error"  value="<c:out value='${eventerrmsg.m_start_timeError}' />"   class="errorMsg"> </td>
     </tr>
 </table>
   <input type ="submit" value="Submit">
