@@ -19,7 +19,7 @@
 <body>
 
 <h1>THIS IS EVENT SUMMARY PAGE</h1>
-<form action='EventController?action=listSpecificEvent' method="post">
+<form action="<c:url value='EventController?action=listSpecificEvent' />" method="post">
  <table border="1" class="myTable"> 
 			<tr class="myTableRow"> 
 				<th class="myTableHead" style="width: 130px; ">Select Event</th>
@@ -34,12 +34,12 @@
 			<c:forEach items="${EVENTS}" var="item" varStatus="status">
 			<tr class="myTableRow"> 
 			<td class="myTableRadio"><input type="radio" id="radioEvent${status.count}" name="radioEvent" value="<c:out value="${status.count}" />"></td> 
-				<td class="myTableCell" style="width: 130px; "> ${item.m_event_name} </td> 
-				<td class="myTableCell" style="width: 130px; "> ${item.m_event_date} </td>
-				<td class="myTableCell" style="width: 105px; "> ${item.m_start_time}</td>
-				<td class="myTableCell" style="width: 74px;  "> ${item.m_duration} </td>
-				<td class="myTableCell" style="width: 130px; "> ${item.m_location} </td> 
-				<td class="myTableCell" style="width: 130px; "> ${item.m_numberofattendees} </td>
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${item.m_event_name}" /> </td> 
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${item.m_event_date}" /> </td>
+				<td class="myTableCell" style="width: 105px; "> <c:out value="${item.m_start_time}" /></td>
+				<td class="myTableCell" style="width: 74px;  "> <c:out value="${item.m_duration}" /> </td>
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${item.m_location}" /> </td> 
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${item.m_numberofattendees}" /> </td>
 			
 		   </tr>
 		   </c:forEach>

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,15 +29,15 @@
 			
 			<td class="myTableCell" style="width: 130px;">
 			
-				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_event_name} </td> 
-				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_event_date} </td> 
-				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_start_time} </td> 
-				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_duration} </td> 
-				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_location} </td> 
-				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_numberofattendees} </td> 
-				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_capacity} </td> 
-				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_eventcoordinator} </td> 
-				<td class="myTableCell" style="width: 130px; "> ${Selected_Event.m_type} </td>
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${Selected_Event.m_event_name}" /> </td> 
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${Selected_Event.m_event_date}" /> </td> 
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${Selected_Event.m_start_time}" /> </td> 
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${Selected_Event.m_duration}" /> </td> 
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${Selected_Event.m_location}" /> </td> 
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${Selected_Event.m_numberofattendees}" /> </td> 
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${Selected_Event.m_capacity}" /> </td> 
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${Selected_Event.m_eventcoordinator}" /> </td> 
+				<td class="myTableCell" style="width: 130px; "> <c:out value="${Selected_Event.m_type}" /> </td>
 				<td class="myTableCell" style="width: 130px; "><a href="modifyevent.jsp">modify</a></td> 
 
 		</tr>

@@ -172,13 +172,14 @@ public class UserController extends HttpServlet {
 				url="/updateprofile.jsp";
 			}
 			else {// if no error messages
+				
 				String mtype = UserDAO.getMtype(oldUsername);
 				user.setMemtype(mtype);
 				if (oldUsername.equals(user.getUsername()))
 					UserDAO.modifyUser(user);
 				else
 					UserDAO.modifyUsername(user, oldUsername);
-				session.setAttribute("users", user);
+				session.setAttribute("loginU", user);
 				
 				UserErrorMsgs SerrorMsgs = new UserErrorMsgs();
 				session.setAttribute("errorMsgs", SerrorMsgs);
@@ -234,6 +235,23 @@ public class UserController extends HttpServlet {
 //				
 				url="/login.jsp";
 			}
+		}
+		
+		else if(action.equalsIgnoreCase("logout")) {
+			session.removeAttribute("currentUsername");
+			session.removeAttribute("errorMsgs");
+			session.removeAttribute("eventerrmsg");
+			session.removeAttribute("dateevent");
+			session.removeAttribute("loginU");
+			session.removeAttribute("user");
+			session.removeAttribute("register");
+			session.removeAttribute("Selected_Event");
+			session.removeAttribute("eventName");
+			session.removeAttribute("oldcname");
+			session.removeAttribute("event");
+			session.removeAttribute("EVENTS");
+			//session.removeAttribute("oldcname");
+			url="/index.jsp";
 		}
 		//System.out.println(getServletContext().getRequestDispatcher(url));
 		try {

@@ -1,5 +1,4 @@
-
-   
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +16,7 @@
 <table>
 <tr>
 	<td>
-	<form action='EventController?action=listEvents' method="post">
+	<form action="<c:url value='EventController?action=listEvents' />" method="post">
 	<table style="width: 1200px; ">
 	<tr>
 	<tr>
