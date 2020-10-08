@@ -105,10 +105,24 @@ public class UserController extends HttpServlet {
 				System.out.println("HERE");
 				getServletContext().getRequestDispatcher("/EventsManagerHomepage.jsp").forward(request, response);			
 				}
-			else if (user.getUsername().equalsIgnoreCase("EventCoordinator")) {
-				System.out.println("Im here with codri");
+			else if (user.getUsername().equalsIgnoreCase("davidf")) {
+				session.setAttribute("coordinator", user.getUsername());
+				System.out.println("Im here with co-ordinator");
+				String currentdate = new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
+				String currentTime =new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+				Event event = new Event();
+				
+				event.setM_event_date(currentdate);
+				event.setM_start_time(currentTime);
+				System.out.println(event.getM_event_date());
+				System.out.println(event.getM_start_time());
+				event.validateEvent("listEvents", event, CerrorMsgs);
+				session.setAttribute("eventerrmsg", CerrorMsgs);
+				session.setAttribute("dateevent",event);
+				System.out.println("HERE");
 				getServletContext().getRequestDispatcher("/EventsCoordinatorHomepage.jsp").forward(request, response);
 			}
+			else {
 			String currentdate = new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
 			String currentTime =new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 			Event event = new Event();
@@ -138,7 +152,7 @@ public class UserController extends HttpServlet {
 			}
 			
 			url="/passengerhomepage.jsp";
-			
+			}
 		}
 		}
 		else if(action.equalsIgnoreCase("updateUser")) {

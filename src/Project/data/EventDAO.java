@@ -4,7 +4,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import com.mysql.cj.Session;
@@ -102,17 +106,42 @@ public  class EventDAO {
 	 */ 
 	
 	public static ArrayList<Event>  searchEvent(String eventDate, String eventTime ) {  
+//		DateFormat d = new SimpleDateFormat("MM/dd/yyyy");
+//		Date x = null;
+//		try {
+//			x = (Date) d.parse(eventDate);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//		String evedate = df.format(x);
 		String query = "SELECT * FROM cruise_activity.events where EVENT_DATE > '"+eventDate+"' && START_TIME > '"+eventTime+"'";	
 		System.out.println(query);
 		return ReturnMatchingEventsList(query);
 	}
-	public static void modifyEvent(Event event, String oldEventName) {
+	public static void modifyEvent(Event event, String oldEventName, String evetime, String edate) {
 		// TODO Auto-generated method stub
+		String eventdate = event.getM_event_date();
+		DateFormat d = new SimpleDateFormat("MM/dd/yyyy"); 
+		Date x = null;
+		try {
+		x = (Date) d.parse(eventdate);
+		}
+		catch (ParseException e) {
+			e.printStackTrace();
+		}
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String evefdt = df.format(x);
+		
+		
+		
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection(); 
 		try {
 			stmt = conn.createStatement();
-			stmt.executeUpdate("UPDATE cruise_activity.events SET EVENT_DATE='"+event.getM_event_date()+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"'");
+			System.out.println("UPDATE cruise_activity.events SET EVENT_DATE='"+evefdt+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"' && EVENT_DATE='"+edate+"' && START_TIME = '"+evetime+"' ");
+			stmt.executeUpdate("UPDATE cruise_activity.events SET EVENT_DATE='"+evefdt+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"' && EVENT_DATE='"+edate+"' && START_TIME = '"+evetime+"' ");
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -136,6 +165,13 @@ public  class EventDAO {
 			e.printStackTrace();
 		}
 		
+	}
+	public static ArrayList<Event> searchEventForC(String feventDate, String eventTime, String cname) {
+		// TODO Auto-generated method stub
+		
+		String query = "SELECT * FROM cruise_activity.events where EVENT_DATE > '"+feventDate+"' && START_TIME > '"+eventTime+"' && COORDINATOR = '"+cname+"'";	
+		System.out.println(query);
+		return ReturnMatchingEventsList(query);
 	}
 
 	

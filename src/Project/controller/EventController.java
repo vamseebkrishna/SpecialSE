@@ -185,6 +185,7 @@ public class EventController extends HttpServlet {
 		else if(action.equalsIgnoreCase("updateEvent"))
 		{
 			getEventParam(request, event);
+			
 			event.validateEvent("updateEvent", event, CerrorMsgs);
 			String oldEventName = (String) session.getAttribute("eventName");
 			if(!CerrorMsgs.getM_errorMsg().equals("")) {
@@ -194,13 +195,142 @@ public class EventController extends HttpServlet {
 			}
 			else {
 				//CerrorMsgs.setM_errorMsg("Modified Successfully");
-					EventDAO.modifyEvent(event, oldEventName);
-				session.setAttribute("EVENTS", event);
-				url = "/EventSummaryPage.jsp";
+				ArrayList<Event> li = new ArrayList<Event>();
+				li=(ArrayList<Event>)session.getAttribute("EVENTS");
+				String evetime = li.get(0).getM_start_time();
+				String evedate = li.get(0).getM_event_date();
+				
+				DateFormat a = new SimpleDateFormat("MM/dd/yyyy"); 
+				Date b = null;
+				try {
+				b = (Date) a.parse(evedate);
+				}
+				catch (ParseException e) {
+					e.printStackTrace();
+				}
+				DateFormat c = new SimpleDateFormat("yyyy-MM-dd");
+				String edate = c.format(b);
+				
+					EventDAO.modifyEvent(event, oldEventName, evetime, edate);
+					event.setM_capacity(li.get(0).getM_capacity());
+					event.setM_duration(li.get(0).getM_duration());
+					event.setM_event_name(li.get(0).getM_event_name());
+					event.setM_eventcoordinator(li.get(0).getM_eventcoordinator());
+					event.setM_location(li.get(0).getM_location());
+					event.setM_numberofattendees(li.get(0).getM_numberofattendees());
+					event.setM_type(li.get(0).getM_type());
+				session.setAttribute("Selected_Event", event);
+				url = "/ListSpecificEvent.jsp";
 				
 			}
 			
 		}
+		else if(action.equalsIgnoreCase("listEventsForC")) {
+				String feventDate = null;
+				String eventDate = request.getParameter("event_date");
+				String eventTime = request.getParameter("event_time");
+//				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//				
+				String cname = (String) session.getAttribute("coordinator");
+				DateFormat parser = new SimpleDateFormat("MM/dd/yyyy");
+				try {
+					Date date = (Date) parser.parse(eventDate);
+				
+					DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+					feventDate = formatter.format(date);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+//				
+				//String d = sdf.format(eventDate);
+//				try {
+//					java.util.Date langDate = sdf.parse("eventDate");
+//					java.sql.Date sqlDate = new java.sql.Date(langDate.getTime());
+//				} catch (ParseException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+				
+				session.removeAttribute("errorMsgs");
+				event.setEvent("", eventDate, eventTime, "", "", "", "", "", "");
+				event.validateEvent(action, event, CerrorMsgs);
+				if (CerrorMsgs.getM_errorMsg().equals("")) {
+					if (!eventDate.equals("") && !eventTime.equals("")) {
+						eventInDB = EventDAO.searchEventForC(feventDate, eventTime, cname);
+						
+						for (int i = 0; i < eventInDB.size(); i++) {
+							String fdateItem = null;
+							String dateItem = eventInDB.get(i).getM_event_date();
+							if(dateItem != null) {
+								DateFormat p = new SimpleDateFormat("yyyy-MM-dd");
+								try {
+									Date d = (Date) p.parse(dateItem);
+									DateFormat f = new SimpleDateFormat("MM/dd/yyyy");
+									fdateItem = f.format(d);
+								} catch (ParseException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								
+							}
+							eventInDB.get(i).setM_event_date(fdateItem);
+						}
+						
+					//	session.setAttribute("EVENTS", );
+						System.out.println("SIZE"+eventInDB.size());
+						System.out.println("came till here");
+						System.out.println(eventInDB.get(0).getM_event_date());
+						System.out.println(eventInDB.get(0).getM_start_time());
+						Event e = eventInDB.get(0);
+						System.out.println("THERE IS NO ERROR hence entered this block");
+						session.setAttribute("EVENTS", eventInDB);
+						//System.out.println(session.getAttribute("EVENTS"));
+						//ArrayList<Event> eventslist=session.getAttribute("EVENTS");
+						url="/EventSummaryForC.jsp";
+					}
+				} else {
+					session.setAttribute("event", event);
+					session.setAttribute("errorMsgs", CerrorMsgs);
+					getServletContext().getRequestDispatcher("/EventsCoordinatorHomepage.jsp").forward(request, response);
+				}
+
+
+			}
+		else if(action.equalsIgnoreCase("listSpecificEventForC")) { // action=listSpecificCompany
+			ArrayList<Event> companyInDB = new ArrayList<Event>();
+			Event selectedEvent= new Event();
+			
+			  if (request.getParameter("radioEvent") != null) 
+			  { 
+				  selectedEventIndex = Integer.parseInt(request.getParameter("radioEvent")) - 1; 
+				  companyInDB=(ArrayList<Event>)session.getAttribute("EVENTS");
+				  selectedEvent.setEvent(companyInDB.get(selectedEventIndex).getM_event_name(),
+				  companyInDB.get(selectedEventIndex).getM_event_date(),
+				  companyInDB.get(selectedEventIndex).getM_start_time(),
+				  companyInDB.get(selectedEventIndex).getM_duration(),
+				  companyInDB.get(selectedEventIndex).getM_location(),
+				  companyInDB.get(selectedEventIndex).getM_numberofattendees(),
+				  companyInDB.get(selectedEventIndex).getM_capacity(),
+				  companyInDB.get(selectedEventIndex).getM_eventcoordinator(),
+				  companyInDB.get(selectedEventIndex).getM_type() ); 
+				  session.setAttribute("Selected_Event", selectedEvent); 
+				  System.out.println(selectedEvent.getM_event_name());
+				  session.setAttribute("eventName", selectedEvent.getM_event_name());
+				  session.setAttribute("oldcname", selectedEvent.getM_eventcoordinator());
+				  url = "/ListSpecificEventForC.jsp"; 
+			  
+			  } 
+			/*
+			 * else { // without selecting a company // if
+			 * (request.getParameter("ListSelectedCompanyButton") != null) { String
+			 * errorMsgs = "Please select a company"; session.setAttribute("errorMsgs",
+			 * errorMsgs); url = "/EventsManagerHomepage.jsp"; }
+			 */
+			  
+			  
+			}
+		
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 			
 		}
