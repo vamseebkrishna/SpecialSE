@@ -150,6 +150,43 @@ public class UserDAO {
 		System.out.println(userListInDB.get(0));
 		return userListInDB;
 	}
+	
+	public static User returnUser(String username)
+	{
+		Statement stmt = null;   
+		Connection conn = null;  
+		conn = SQLConnection.getDBConnection();  
+		User userobj = new User();
+		
+		try {
+			stmt = conn.createStatement();
+			System.out.println("argument passed"+username);
+			String searchUser = " SELECT * from cruise_activity.system_user WHERE USERNAME = '"+username+"'";
+			ResultSet user = stmt.executeQuery(searchUser);
+			
+			if(user.next())
+			{
+			
+				userobj.setUsername(user.getString("USERNAME"));
+				userobj.setFirstname(user.getString("FIRSTNAME"));
+				userobj.setLastname(user.getString("LASTNAME"));
+				userobj.setPhone(user.getString("PHONE"));
+				userobj.setEmail(user.getString("EMAIL"));
+				userobj.setRoomno(user.getString("ROOM_NUMBER"));
+				userobj.setDeckno(user.getString("DECK_NUMBER"));
+				userobj.setMemtype(user.getString("MEM_TYPE"));
+				userobj.setPassword(user.getString("PASSWORD"));
+				
+			
+			}
+			
+			 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}  
+		return userobj;
+		
+	}
 	public static void modifyUser(User user) {
 		// TODO Auto-generated method stub
 		

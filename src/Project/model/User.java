@@ -82,7 +82,7 @@ public class User {
 	}
 	public void validateUser (String action, User user, UserErrorMsgs errorMsgs) {
 		if (action.equals("register")) {
-			errorMsgs.setUsernameError(validateUsernameRegister(user.getUsername()));
+			errorMsgs.setUsernameError(validateUsernameRegister(user.getUsername(), action));
 			errorMsgs.setPasswordError(validatePasswordRegister(user.getPassword()));
 			errorMsgs.setUserLastError(validateLastName(user.getLastname()));
 			errorMsgs.setUserFirstError(validateFirstName(user.getFirstname()));
@@ -93,12 +93,24 @@ public class User {
 			//errorMsgs.setUserSelectError(validateMemtype(user.getMemtype()));
 		}
 		else if (action.equals("login")) {
-			System.out.println("validating");
-			System.out.println("user = "+user.getUsername());
-			System.out.println("pass = "+user.getPassword());
+			//System.out.println("validating");
+			//System.out.println("user = "+user.getUsername());
+			//System.out.println("pass = "+user.getPassword());
 			errorMsgs.setUsernameError(validateUsernameLogin(user.getUsername()));
 			errorMsgs.setPasswordError(validatePasswordLogin(user.getUsername(),user.getPassword()));
 		}
+		
+		else if(action.equals("updateUser")) {
+			errorMsgs.setUsernameError(validateUsernameRegister(user.getUsername(), action));
+			errorMsgs.setPasswordError(validatePasswordRegister(user.getPassword()));
+			errorMsgs.setUserLastError(validateLastName(user.getLastname()));
+			errorMsgs.setUserFirstError(validateFirstName(user.getFirstname()));
+			errorMsgs.setUserPhoneError(validatePhone(user.getPhone()));
+			errorMsgs.setUserEmailError(validateEmail(user.getEmail()));
+			errorMsgs.setUserRoomnoError(validateRoomno(user.getRoomno()));
+			errorMsgs.setUserDecknoError(validateDeckno(user.getDeckno()));
+		}
+		
 		errorMsgs.setErrorMsg();
 	}
 	
@@ -107,7 +119,7 @@ public class User {
 		
 		if(!UserDAO.usernameFound(username))
 			result = "Username not found in the system";
-		System.out.println("u result = "+result);
+		//System.out.println("u result = "+result);
 		return result;
 	}
 	
@@ -116,11 +128,22 @@ public class User {
 		
 		if(!UserDAO.passwordMatch(username, password))
 			result = "Password does not match the username";
-		System.out.println("p result = "+result);
+		//System.out.println("p result = "+result);
 		return result;
 	}
-	private String validateUsernameRegister(String username) {
+	private String validateUsernameRegister(String username, String action) {
 		String result = "";
+		if(action.equals("updateUser")) {
+			
+			if (!stringSize(username,5,20))
+				result = "Username length must be >4 and <=20";
+			else if(!Character.isLetter(username.charAt(0)))
+				result = "Username must start with a letter";
+			else if (specialCharacter(username))
+				result = "Username cannot contain special characters";
+		}
+		else {
+		
 		if (!stringSize(username,5,20))
 			result = "Username length must be >4 and <=20";
 		else if(!Character.isLetter(username.charAt(0)))
@@ -129,7 +152,9 @@ public class User {
 			result = "Username cannot contain special characters";
 		else if (UserDAO.duplicateUser(username))
 				result = "Username already in database";
+		}
 		return result;
+		
 	}
 	
 	private String validatePasswordRegister(String password) {
@@ -159,7 +184,7 @@ public class User {
 	     
 	    if(!stringSize(password, 8, 29))
 	    {
-			  result = "Password must be between 8 and 29 characters";
+			  result = "Password length must be >7 and <30";
 		}
 	    else {
 		    for ( int i = 0; i < password.length(); i++) {
@@ -175,22 +200,22 @@ public class User {
 		    }
 		    if(!lowercase)
 		    {
-				  System.out.println("Password "+ password +" is invalid");
-				  result = "Password must contain a lowercase character";
+				  //System.out.println("Password "+ password +" is invalid");
+				  result = "Password must contain a lower case letter";
 			}	
 		    else if(!digit)
 		    {
-				  System.out.println("Password "+ password +" is invalid");
-				  result = "Password must contain a digit";
+				 // System.out.println("Password "+ password +" is invalid");
+				  result = "Password must contain a number";
 			}
 		    else if(!uppercase)
 		    {
-				  System.out.println("Password "+ password +" is invalid");
-				  result = "Password must contain a uppercase character";
+				 // System.out.println("Password "+ password +" is invalid");
+				  result = "Password must contain an upper case letter";
 			}
 		    else if(!special)
 		    {
-				  System.out.println("Password "+ password +" is invalid");
+				  //System.out.println("Password "+ password +" is invalid");
 				  result = "Password must contain a special character";
 			}
 	    }
@@ -251,11 +276,11 @@ public class User {
 		String result = "";
 		
 		 if (!isTextAnInteger(no))
-			result = "ROOM NUMBER must be numeric";
-		else if (UserDAO.duplicateId(no))
-			result = "Room Number already in use";	
+			result = "Room number must be numeric";
+//		else if (UserDAO.duplicateId(no))
+//			result = "Room Number already in use";	
 		 else if(Integer.parseInt(no) < 100 || Integer.parseInt(no) > 199) {
-			result = "Room Number cannot be < 100 or > 199";
+			result = "Room number must be >=100 and <=199";
 		}
 		
 		return result;
@@ -281,20 +306,29 @@ public class User {
 	
 	private String validateDeckno(String number) {
 		String result = "";
-System.out.println(number);
-		if (!stringSize(number,1,6))
-			result = "Deck number length must be >0 and <16";
-		else if (!isTextAnInteger(number))
-			result = "Deck number must be numeric";
-		else if(Integer.parseInt(number) <= 0)
-			result = "Deck number must be >0";		
+//System.out.println(number);
+int num;
+try {
+	num = Integer.parseInt(number);
+	if(num == 0) {
+		result = "Deck number must be >0";
+	}
+	else if(num < 1 || num > 15) {
+		result = "Deck number must be >=1 and <=15";
+	}
+	
+	
+}
+catch (NumberFormatException e) {
+	result = "Deck number must be numeric";
+}
 		
 		return result;
 	}
 	
 	private boolean stringSize(String string, int min, int max) {
 		
-		return string.length()>=min && string.length()<=max;
+		return string.length() >= min && string.length()<=max;
 	}
 	
 	private boolean isTextAnInteger (String string) {

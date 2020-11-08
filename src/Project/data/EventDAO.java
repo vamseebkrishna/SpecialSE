@@ -120,6 +120,54 @@ public  class EventDAO {
 		System.out.println(query);
 		return ReturnMatchingEventsList(query);
 	}
+	
+	public static ArrayList<Event>  searchEventForPassenger(String eventDate, String eventTime,String eventType ) {  
+		String query = "SELECT * FROM cruise_activity.events where EVENT_DATE > '"+eventDate+"' && START_TIME > '"+eventTime+"' && TYPE ='"+eventType+"'";	
+		System.out.println(query);
+		return ReturnMatchingEventsList(query);
+	}
+	
+	public static void insertEvent (Event event) {
+		System.out.println("Inside insertEvent of EventDAO");
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();  
+		try {
+			stmt = conn.createStatement();
+
+			
+			String old_date=event.getM_event_date();
+			String feventDate=" ";
+			
+			DateFormat parser = new SimpleDateFormat("MM/dd/yyyy");
+			try {
+				Date date = (Date) parser.parse(old_date);
+			
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			    feventDate = formatter.format(date);
+			
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			String insertEvent = "INSERT INTO cruise_activity.events VALUES ('"  
+					+ event.getM_event_name()  + "','"
+					+ feventDate + "','"		
+					+ event.getM_start_time() + "','"
+					+ event.getM_duration()+"','"
+					+ event.getM_location() + "','"
+					+ event.getM_numberofattendees() + "','"
+					+ event.getM_capacity() + "','"
+					+ event.getM_eventcoordinator() + "','"
+					+ event.getM_type() + "','"
+					+event.getM_username()+ "')";
+			
+			System.out.println(insertEvent);
+			int result=stmt.executeUpdate(insertEvent);	
+			System.out.println("result of sql execution"+result);
+			conn.commit(); 
+		} catch (SQLException e) {}
+	}
+	
 	public static void modifyEvent(Event event, String oldEventName, String evetime, String edate) {
 		// TODO Auto-generated method stub
 		String eventdate = event.getM_event_date();
@@ -167,6 +215,76 @@ public  class EventDAO {
 		}
 		
 	}
+	
+	public static Boolean eventDateFull2(String date, String user,String type)  {  
+		System.out.println("inside event date full 2"+date+":"+user+":"+type);
+		String old_date=date;
+		String feventDate=" ";
+		
+		DateFormat parser = new SimpleDateFormat("MM/dd/yyyy");
+		try {
+			Date dateret = (Date) parser.parse(old_date);
+		
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		    feventDate = formatter.format(dateret);
+		
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();  
+		try {
+			stmt = conn.createStatement();
+			String queryString = "SELECT COUNT(*) FROM cruise_activity.EVENTS WHERE EVENT_DATE='"+feventDate+"' AND USER = '"+user+"' AND TYPE='"+"Atheletic"+"'";
+			System.out.println(queryString);
+			ResultSet one = stmt.executeQuery(queryString);	
+			System.out.println("count"+one.getInt(1));
+			
+			while(one.next()) {
+				if (one.getInt(1) > 0) return true;
+				else return false; 
+			}
+		} catch (SQLException e) {System.out.println(e);}
+		return true;
+	}
+	
+	public static Boolean eventDateFull(String date, String user,String type)  {  
+		System.out.println("inside event date full"+date+":"+user+":"+type);
+		String old_date=date;
+		String feventDate=" ";
+		
+		DateFormat parser = new SimpleDateFormat("MM/dd/yyyy");
+		try {
+			Date dateret = (Date) parser.parse(old_date);
+		
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		    feventDate = formatter.format(dateret);
+		
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();  
+		try {
+			stmt = conn.createStatement();
+			String queryString = "SELECT COUNT(*) FROM cruise_activity.EVENTS WHERE EVENT_DATE='"+feventDate+"' AND USER = '"+user+"' AND TYPE='"+"show"+"'";
+			System.out.println("SELECT COUNT(*) FROM cruise_activity.EVENTS WHERE EVENT_DATE='"+feventDate+"' AND USER = '"+user+"' AND TYPE='"+"show"+"'");
+			ResultSet one = stmt.executeQuery(queryString);	
+			System.out.println(one.getInt(1));
+			System.out.println();
+
+			while(one.next()) {
+				if (one.getInt(1) > 1) return true;
+				else return false; 
+			}
+		} catch (SQLException e) {System.out.println(e);}
+		return true;
+	}
+
 	public static ArrayList<Event> searchEventForC(String feventDate, String eventTime, String cname) {
 		// TODO Auto-generated method stub
 		
@@ -174,6 +292,7 @@ public  class EventDAO {
 		System.out.println(query);
 		return ReturnMatchingEventsList(query);
 	}
+	
 
 	
 	/*

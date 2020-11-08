@@ -37,7 +37,7 @@ public class UserErrorMsgs {
 			errorMsg = "Please correct the following errors";
 		}
 		else {
-			System.out.println("no errors");
+			//System.out.println("no errors");
 		}
 	}
 	
@@ -93,8 +93,8 @@ public class UserErrorMsgs {
 	public String getUserSelectError() {
 		return userSelectError;
 	}
-	public void setUserSelectError(String userSelectError) {
-		this.userSelectError = userSelectError;
-	}
+//	public void setUserSelectError(String userSelectError) {
+//		this.userSelectError = userSelectError;
+//	}
 	
 }
