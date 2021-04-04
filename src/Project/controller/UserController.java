@@ -69,7 +69,7 @@ public class UserController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("in post");
+		//("in post");
 		LOGGER.info("in post");
 		String action=request.getParameter("action"), url="";
 		HttpSession session = request.getSession();
@@ -88,8 +88,8 @@ public class UserController extends HttpServlet {
 			url="/login.jsp"; 
 		}
 		else {
-			System.out.println("user = "+user.getUsername());
-			System.out.println("pass = "+user.getPassword());
+			//("user = "+user.getUsername());
+			//("pass = "+user.getPassword());
 			if(user.getUsername().equalsIgnoreCase("EventManager")) {
 				String currentdate = new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
 				String currentTime =new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
@@ -97,12 +97,12 @@ public class UserController extends HttpServlet {
 				
 				event.setM_event_date(currentdate);
 				event.setM_start_time(currentTime);
-				System.out.println(event.getM_event_date());
-				System.out.println(event.getM_start_time());
+				//(event.getM_event_date());
+				//(event.getM_start_time());
 				event.validateEvent("listEvents", event, CerrorMsgs);
 				session.setAttribute("eventerrmsg", CerrorMsgs);
 				session.setAttribute("dateevent",event);
-				System.out.println("HERE");
+				//("HERE");
 				getServletContext().getRequestDispatcher("/EventsManagerHomepage.jsp").forward(request, response);			
 				}
 			else if (user.getUsername().equalsIgnoreCase("sethgreen") || user.getUsername().equalsIgnoreCase("ivanadams") ||
@@ -110,19 +110,19 @@ public class UserController extends HttpServlet {
 					user.getUsername().equalsIgnoreCase("margotrobbie") || user.getUsername().equalsIgnoreCase("angelinajolie") ||
 					user.getUsername().equalsIgnoreCase("annehathaway") || user.getUsername().equalsIgnoreCase("emmastone")) {
 				session.setAttribute("coordinator", user.getUsername());
-				System.out.println("Im here with co-ordinator");
+				//("Im here with co-ordinator");
 				String currentdate = new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
 				String currentTime =new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 				Event event = new Event();
 				
 				event.setM_event_date(currentdate);
 				event.setM_start_time(currentTime);
-				System.out.println(event.getM_event_date());
-				System.out.println(event.getM_start_time());
+				//(event.getM_event_date());
+				//(event.getM_start_time());
 				event.validateEvent("listEvents", event, CerrorMsgs);
 				session.setAttribute("eventerrmsg", CerrorMsgs);
 				session.setAttribute("dateevent",event);
-				System.out.println("HERE");
+				//("HERE");
 				getServletContext().getRequestDispatcher("/EventsCoordinatorHomepage.jsp").forward(request, response);
 			}
 			else {
@@ -132,12 +132,12 @@ public class UserController extends HttpServlet {
 			
 			event.setM_event_date(currentdate);
 			event.setM_start_time(currentTime);
-			System.out.println(event.getM_event_date());
-			System.out.println(event.getM_start_time());
+			//(event.getM_event_date());
+			//(event.getM_start_time());
 			event.validateEvent("listEvents", event, CerrorMsgs);
 			session.setAttribute("eventerrmsg", CerrorMsgs);
 			session.setAttribute("dateevent",event);
-			System.out.println("HERE");
+			//("HERE");
 			
 			ArrayList<User> UserinDB=new ArrayList<User>();
 			UserinDB=UserDAO.Searchusername(user.getUsername());
@@ -210,22 +210,22 @@ public class UserController extends HttpServlet {
 		else if(action.equals("register")) {
 			getUserParam(request, user);
 			user.validateUser(action, user, UerrorMsgs);
-			System.out.println("inside register");
+			//("inside register");
 			//session.setAttribute("user",user);
-			//System.out.println(session.getAttribute(user.getFirstname()));
+			////(session.getAttribute(user.getFirstname()));
 			if (!UerrorMsgs.getErrorMsg().equals("")) {
-				System.out.println("hence im not in insert block");
+				//("hence im not in insert block");
 				getUserParam(request,user);
 				session.setAttribute("errorMsgs",UerrorMsgs);
 				url="/register.jsp"; 
 			}
 		
 			else {// if no error messages
-				System.out.println("Before insert");
+				//("Before insert");
 				UserDAO.insertUser(user);
-				System.out.println("There are no error msgs, hence im in insert block");
+				//("There are no error msgs, hence im in insert block");
 				UserErrorMsgs SerrorMsgs = new UserErrorMsgs();
-				System.out.println("No errors here!");
+				//("No errors here!");
 				session.setAttribute("errorMsgs", SerrorMsgs);
 				session.setAttribute("reguser", user);
 				
@@ -256,7 +256,7 @@ public class UserController extends HttpServlet {
 			//session.removeAttribute("oldcname");
 			url="/index.jsp";
 		}
-		//System.out.println(getServletContext().getRequestDispatcher(url));
+		////(getServletContext().getRequestDispatcher(url));
 		try {
 			getServletContext().getRequestDispatcher(url).forward(request, response);
 		} catch (Exception e) {
@@ -266,43 +266,7 @@ public class UserController extends HttpServlet {
 				
 			
 		}
-		//getServletContext().getRequestDispatcher("/index.jsp").forwarsetUsernamed(request, response);
-		//UserErrorMsgs UerrorMsgs = new UserErrorMsgs();int selectedUserIndex;
-		//String lastname;
-		//session.removeAttribute("errorMsgs");
-		
-		/*
-		 * if (action.equals("login")) { //insert employee button pressed String
-		 * username = request.getParameter("username"); String password =
-		 * request.getParameter("password");
-		 * 
-		 * user.setUsername(username); user.setPassword(password);
-		 * user.validateUser(action, user, UerrorMsgs); if
-		 * (!UerrorMsgs.getErrorMsg().equals("")) {
-		 * session.setAttribute("errorMsgs",UerrorMsgs); url="/login.jsp"; } else {// if
-		 * no error messages System.out.println("user = "+user.getUsername());
-		 * System.out.println("pass = "+user.getPassword()); String role =
-		 * UserDAO.getRole(user.getUsername(), user.getPassword());
-		 * System.out.println("role = "+role); UserErrorMsgs SerrorMsgs = new
-		 * UserErrorMsgs(); session.setAttribute("errorMsgs", SerrorMsgs);
-		 * user.setUsername(username);
-		 * 
-		 * if (role.equals("Admin")) { session.setAttribute("user", user);
-		 * url="/adminHomepage.jsp"; } else if (role.equals("Caterer Manager")) {
-		 * session.setAttribute("user", user); url="/mgrHomepage.jsp"; } else if
-		 * (role.equals("User")) { session.setAttribute("user", user);
-		 * url="/userHomepage.jsp"; } else if (role.equals("Caterer Staff")) {
-		 * session.setAttribute("user", user); url="/StaffHome.jsp"; } }
-		 * 
-		 * } else if(action.equals("register")) { getUserParam(request, user);
-		 * user.validateUser(action, user, UerrorMsgs);
-		 * session.setAttribute("user",user); if (!UerrorMsgs.getErrorMsg().equals(""))
-		 * { getUserParam(request,user); session.setAttribute("errorMsgs",UerrorMsgs);
-		 * url="/register.jsp"; } else {// if no error messages
-		 * UserDAO.insertUser(user); UserErrorMsgs SerrorMsgs = new UserErrorMsgs();
-		 * session.setAttribute("errorMsgs", SerrorMsgs); url="/index.jsp"; } }
-		 */
-	
+			
 	}
 
 

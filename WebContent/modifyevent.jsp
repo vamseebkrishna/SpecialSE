@@ -16,7 +16,7 @@
 				</tr>
 				<tr>
 					<td>Event Date</td>
-					<td><input type="text" name="eventdate" value="<c:out value='${Selected_Event.m_event_date}' />"></td>
+					<td><input name="eventdate" value="<c:out value='${Selected_Event.m_event_date}' />"></td>
 					<td> <input name="passwordError" value="<c:out value='${errorMsgs.passwordError}' />" class="errorMsg"> </td>
 				</tr>
 				<tr>

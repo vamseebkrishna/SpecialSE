@@ -36,7 +36,7 @@ public class UserTest {
 		user.validateUser(action, user, uerrors);
 		if(action.equals("updateUser")) {
 			assertTrue(usernameError.equals(uerrors.getUsernameError()));
-			System.out.println("Update user Username error" + uerrors.getUsernameError());
+			//("Update user Username error" + uerrors.getUsernameError());
 			assertTrue(passwordError.equals(uerrors.getPasswordError()));
 			assertTrue(userLastError.equals(uerrors.getUserLastError()));
 			assertTrue(userFirstError.equals(uerrors.getUserFirstError()));
@@ -49,15 +49,15 @@ public class UserTest {
 		}
 		else
 		{
-		//System.out.println(uerrors.getErrorMsg());
+		////(uerrors.getErrorMsg());
 		assertTrue(errorMsg.equals(uerrors.getErrorMsg()));
-		//System.out.println(errorMsg);
-		//System.out.println(uerrors.getErrorMsg());
+		////(errorMsg);
+		////(uerrors.getErrorMsg());
 		assertTrue(usernameError.equals(uerrors.getUsernameError()));
 		
 		assertTrue(passwordError.equals(uerrors.getPasswordError()));
-	//	System.out.println();
-		//System.out.println("Password error: "+ uerrors.getPasswordError());
+	//	//();
+		////("Password error: "+ uerrors.getPasswordError());
 		assertTrue(userLastError.equals(uerrors.getUserLastError()));
 		assertTrue(userFirstError.equals(uerrors.getUserFirstError()));
 		assertTrue(userPhoneError.equals(uerrors.getUserPhoneError()));

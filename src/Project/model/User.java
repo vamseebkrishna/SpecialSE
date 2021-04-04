@@ -93,9 +93,9 @@ public class User {
 			//errorMsgs.setUserSelectError(validateMemtype(user.getMemtype()));
 		}
 		else if (action.equals("login")) {
-			//System.out.println("validating");
-			//System.out.println("user = "+user.getUsername());
-			//System.out.println("pass = "+user.getPassword());
+			////("validating");
+			////("user = "+user.getUsername());
+			////("pass = "+user.getPassword());
 			errorMsgs.setUsernameError(validateUsernameLogin(user.getUsername()));
 			errorMsgs.setPasswordError(validatePasswordLogin(user.getUsername(),user.getPassword()));
 		}
@@ -119,7 +119,7 @@ public class User {
 		
 		if(!UserDAO.usernameFound(username))
 			result = "Username not found in the system";
-		//System.out.println("u result = "+result);
+		////("u result = "+result);
 		return result;
 	}
 	
@@ -128,7 +128,7 @@ public class User {
 		
 		if(!UserDAO.passwordMatch(username, password))
 			result = "Password does not match the username";
-		//System.out.println("p result = "+result);
+		////("p result = "+result);
 		return result;
 	}
 	private String validateUsernameRegister(String username, String action) {
@@ -200,22 +200,22 @@ public class User {
 		    }
 		    if(!lowercase)
 		    {
-				  //System.out.println("Password "+ password +" is invalid");
+				  ////("Password "+ password +" is invalid");
 				  result = "Password must contain a lower case letter";
 			}	
 		    else if(!digit)
 		    {
-				 // System.out.println("Password "+ password +" is invalid");
+				 // //("Password "+ password +" is invalid");
 				  result = "Password must contain a number";
 			}
 		    else if(!uppercase)
 		    {
-				 // System.out.println("Password "+ password +" is invalid");
+				 // //("Password "+ password +" is invalid");
 				  result = "Password must contain an upper case letter";
 			}
 		    else if(!special)
 		    {
-				  //System.out.println("Password "+ password +" is invalid");
+				  ////("Password "+ password +" is invalid");
 				  result = "Password must contain a special character";
 			}
 	    }
@@ -306,7 +306,7 @@ public class User {
 	
 	private String validateDeckno(String number) {
 		String result = "";
-//System.out.println(number);
+////(number);
 int num;
 try {
 	num = Integer.parseInt(number);

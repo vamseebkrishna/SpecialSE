@@ -122,62 +122,62 @@ public class Event implements Serializable {
 		this.m_type = m_type;
 	}
 
-	public void validateEvent(String action, Event event, EventErrorMsgs errorMsgs) {
-		if (action.equals("listEvents") || action.equalsIgnoreCase("updateEvent")) {
-//			if (event.getM_event_date().equals("") && event.getM_start_time().equals("")) {
-//				errorMsgs.setM_event_dateError("event date cannot be blank");
-//				errorMsgs.setM_start_timeError("event time cannot be blank");
-//				System.out.println("BOTH DATE AND TIME EMPTY");
-//			} else if (event.getM_event_date().equals("")) {
-//				errorMsgs.setM_event_dateError("event date cannot be blank");
-//				System.out.println("DATE EMPTY");
-//			} else if (event.getM_start_time().equals("")) {
-//				errorMsgs.setM_event_dateError("event time cannot be blank");
-//				System.out.println("TIME EMPTY");
-//			}
-//			String result = "";
-//			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-//			Date date1 = null, date2 = null;
-//			try {
-//				date1 = sdf.parse(event.getM_event_date());
-//			} catch (ParseException e) {
-//				// TODO Auto-generated catch block
-//				result = "Date not in correct format";
-//				errorMsgs.setM_event_dateError(result);
-//			}
-//			String current = new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
-//			try {
-//				date2 = sdf.parse(current);
-//			} catch (ParseException e) {
-//				// TODO Auto-generated catch block
-//				result = "Date not in correct format";
-//				errorMsgs.setM_event_dateError(result);
-//			}
-//			if (result.equals("")) {
-//				if (date1.before(date2)) { // date1<=date2
-//					result = "Cannot be past date";
-//					errorMsgs.setM_event_dateError(result);
-//				} else if (date1.equals(date2)) {
-//					result = validateTime(event.getM_start_time()); // if date1=date2 => time1>currenttime
-//					errorMsgs.setM_start_timeError(result);
-//				}
-//			}
-//
-//			errorMsgs.setErrorMsg();
+	public void validateEvent (String action, Event event, EventErrorMsgs errorMsgs) {
+		if (action.equals("listEvents") || action.equalsIgnoreCase("updateEvent") || action.equalsIgnoreCase("listEventsForC")) {
+			if (event.getM_event_date().equals("") && event.getM_start_time().equals("")) {
+				errorMsgs.setM_event_dateError("event date cannot be blank");
+				errorMsgs.setM_start_timeError("event time cannot be blank");
+				//("BOTH DATE AND TIME EMPTY");
+			} else if (event.getM_event_date().equals("")) {
+				errorMsgs.setM_event_dateError("event date cannot be blank");
+				//("DATE EMPTY");
+			} else if (event.getM_start_time().equals("")) {
+				errorMsgs.setM_event_dateError("event time cannot be blank");
+				//("TIME EMPTY");
+			}
+			String result = "";
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+			Date date1 = null, date2 = null;
+			try {
+				date1 = sdf.parse(event.getM_event_date());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				result = "Date not in correct format";
+				errorMsgs.setM_event_dateError(result);
+			}
+			String current = new SimpleDateFormat("MM/dd/yyyy").format(Calendar.getInstance().getTime());
+			try {
+				date2 = sdf.parse(current);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				result = "Date not in correct format";
+				errorMsgs.setM_event_dateError(result);
+			}
+			if (result.equals("")) {
+				if (date1.before(date2)) { // date1<=date2
+					result = "Cannot be past date";
+					errorMsgs.setM_event_dateError(result);
+				} else if (date1.equals(date2)) {
+					result = validateTime(event.getM_start_time()); // if date1=date2 => time1>currenttime
+					errorMsgs.setM_start_timeError(result);
+				}
+			}
+
+			errorMsgs.setErrorMsg();
 		} else if (action.equalsIgnoreCase("Reserve")) {
 			String result = "";
-			System.out.println("Inside reserve validate");
-			System.out.println(event.getM_capacity());
-			System.out.println(event.getM_numberofattendees());
+			//("Inside reserve validate");
+			//(event.getM_capacity());
+			//(event.getM_numberofattendees());
 			int cap = Integer.parseInt(event.getM_capacity());
 			int att = Integer.parseInt(event.getM_numberofattendees());
 			String eventType = event.getM_type();
 			if (cap < att) {
-				System.out.println("Attendees error i");
+				//("Attendees error i");
 				result = "Number of Attendees cannot be higher than Capacity";
 				errorMsgs.setM_numberofattendeesError(result);
 			}
-			System.out.println("********************************************");
+			//("********************************************");
 System.out.print(event.getM_type()+":"); System.out.print( event.getM_username()+":"); System.out.print(event.getM_event_date());
 			if (eventType.equals("show") && EventDAO.eventDateFull(event.getM_event_date(), event.getM_username(), event.getM_type())) {
 				result = "No more than 2 show events can be booked per day";
@@ -198,20 +198,20 @@ System.out.print(event.getM_type()+":"); System.out.print( event.getM_username()
 				errorMsgs.setM_event_dateError("event date cannot be blank");
 				errorMsgs.setM_start_timeError("event time cannot be blank");
 				errorMsgs.setM_typeError("event type cannot be blank");
-				System.out.println(" DATE,TIME AND TYPE EMPTY");
+				//(" DATE,TIME AND TYPE EMPTY");
 			} else if (event.getM_event_date().equals("") && event.getM_start_time().equals("")) {
 				errorMsgs.setM_event_dateError("event date cannot be blank");
 				errorMsgs.setM_start_timeError("event time cannot be blank");
-				System.out.println(" DATE,TIME EMPTY");
+				//(" DATE,TIME EMPTY");
 			} else if (event.getM_event_date().equals("")) {
 				errorMsgs.setM_event_dateError("event date cannot be blank");
-				System.out.println("DATE EMPTY");
+				//("DATE EMPTY");
 			} else if (event.getM_start_time().equals("")) {
 				errorMsgs.setM_event_dateError("event time cannot be blank");
-				System.out.println("TIME EMPTY");
+				//("TIME EMPTY");
 			} else if (event.getM_type().equals("")) {
 				errorMsgs.setM_typeError("event type cannot be blank");
-				System.out.println("TYPE EMPTY");
+				//("TYPE EMPTY");
 			}
 			String result = "";
 			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");

@@ -116,7 +116,7 @@ public class EventErrorMsgs {
 				|| !m_capacityError.equals("") || !m_eventcoordinatorError.equals("") ||! m_typeError.equals(""))
 		{
 			setM_errorMsg("Please correct the following errors");
-			//System.out.println("SETTING THE WRONG ERROR MESSAGE");
+			////("SETTING THE WRONG ERROR MESSAGE");
 		}
 		
 	}

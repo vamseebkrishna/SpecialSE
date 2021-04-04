@@ -48,7 +48,7 @@ public  class EventDAO {
 				eventListInDB.add(event);	
 			}
 		} catch (SQLException e) {}
-		System.out.println(eventListInDB);
+		//(eventListInDB);
 		return eventListInDB;
 	}
 	public static String selectcrd(String firstname,String lastname) {  
@@ -62,7 +62,7 @@ public  class EventDAO {
 			ResultSet cuser = stmt.executeQuery(cusername);
 			while (cuser.next()) {
 			cuname = cuser.getString("USERNAME");
-			System.out.println(cuname);
+			//(cuname);
 			
 			
 			}
@@ -77,13 +77,13 @@ public  class EventDAO {
 	public static void update(String cuname, String oldcname, String evename, String evedate, String evetime) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
-		System.out.println(" UPDATE cruise_activity.events SET COORDINATOR='"+cuname+"' WHERE COORDINATOR ='"+oldcname+"' && EVENT_NAME = '"+evename+"' && EVENT_DATE = '"+evedate+"' && START_TIME = '"+evetime+"' ");
+		//(" UPDATE cruise_activity.events SET COORDINATOR='"+cuname+"' WHERE COORDINATOR ='"+oldcname+"' && EVENT_NAME = '"+evename+"' && EVENT_DATE = '"+evedate+"' && START_TIME = '"+evetime+"' ");
 		try {
 		  
 		stmt = conn.createStatement();
 		int rows = stmt.executeUpdate(" UPDATE cruise_activity.events SET COORDINATOR='"+cuname+"' WHERE COORDINATOR ='"+oldcname+"' && EVENT_NAME = '"+evename+"' && EVENT_DATE = '"+evedate+"' && START_TIME = '"+evetime+"' ");
 		conn.commit();
-		System.out.println(rows);
+		//(rows);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -117,18 +117,18 @@ public  class EventDAO {
 //		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 //		String evedate = df.format(x);
 		String query = "SELECT * FROM cruise_activity.events where EVENT_DATE > '"+eventDate+"' && START_TIME > '"+eventTime+"'";	
-		System.out.println(query);
+		//(query);
 		return ReturnMatchingEventsList(query);
 	}
 	
 	public static ArrayList<Event>  searchEventForPassenger(String eventDate, String eventTime,String eventType ) {  
 		String query = "SELECT * FROM cruise_activity.events where EVENT_DATE > '"+eventDate+"' && START_TIME > '"+eventTime+"' && TYPE ='"+eventType+"'";	
-		System.out.println(query);
+		//(query);
 		return ReturnMatchingEventsList(query);
 	}
 	
 	public static void insertEvent (Event event) {
-		System.out.println("Inside insertEvent of EventDAO");
+		//("Inside insertEvent of EventDAO");
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();  
 		try {
@@ -161,9 +161,9 @@ public  class EventDAO {
 					+ event.getM_type() + "','"
 					+event.getM_username()+ "')";
 			
-			System.out.println(insertEvent);
+			//(insertEvent);
 			int result=stmt.executeUpdate(insertEvent);	
-			System.out.println("result of sql execution"+result);
+			//("result of sql execution"+result);
 			conn.commit(); 
 		} catch (SQLException e) {}
 	}
@@ -188,7 +188,7 @@ public  class EventDAO {
 		Connection conn = SQLConnection.getDBConnection(); 
 		try {
 			stmt = conn.createStatement();
-			System.out.println("UPDATE cruise_activity.events SET EVENT_DATE='"+evefdt+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"' && EVENT_DATE='"+edate+"' && START_TIME = '"+evetime+"' ");
+			//("UPDATE cruise_activity.events SET EVENT_DATE='"+evefdt+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"' && EVENT_DATE='"+edate+"' && START_TIME = '"+evetime+"' ");
 			stmt.executeUpdate("UPDATE cruise_activity.events SET EVENT_DATE='"+evefdt+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"' && EVENT_DATE='"+edate+"' && START_TIME = '"+evetime+"' ");
 			conn.commit();
 		} catch (SQLException e) {
@@ -199,7 +199,7 @@ public  class EventDAO {
 		// TODO Auto-generated method stub
 		
 		Statement stmt = null;
-		System.out.println("UPDATE cruise_activity.events SET EVENT_NAME = '"+event.getM_event_name()+"', EVENT_DATE='"+event.getM_event_date()+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"'");
+		//("UPDATE cruise_activity.events SET EVENT_NAME = '"+event.getM_event_name()+"', EVENT_DATE='"+event.getM_event_date()+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"'");
 		Connection conn = SQLConnection.getDBConnection();
 		try {
 		stmt = conn.createStatement();
@@ -207,8 +207,8 @@ public  class EventDAO {
 		//boolean res = stmt.execute(updateStmt);
 		int rows = stmt.executeUpdate("UPDATE cruise_activity.events SET EVENT_NAME = '"+event.getM_event_name()+"', EVENT_DATE='"+event.getM_event_date()+"',START_TIME='"+event.getM_start_time()+"',ATTENDEES='"+event.getM_numberofattendees()+"' WHERE EVENT_NAME='"+oldEventName+"'");
 		conn.commit();
-		System.out.println("rows impacted: " + rows);
-		System.out.println(stmt);
+		//("rows impacted: " + rows);
+		//(stmt);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -217,7 +217,7 @@ public  class EventDAO {
 	}
 	
 	public static Boolean eventDateFull2(String date, String user,String type)  {  
-		System.out.println("inside event date full 2"+date+":"+user+":"+type);
+		//("inside event date full 2"+date+":"+user+":"+type);
 		String old_date=date;
 		String feventDate=" ";
 		
@@ -238,20 +238,22 @@ public  class EventDAO {
 		try {
 			stmt = conn.createStatement();
 			String queryString = "SELECT COUNT(*) FROM cruise_activity.EVENTS WHERE EVENT_DATE='"+feventDate+"' AND USER = '"+user+"' AND TYPE='"+"Atheletic"+"'";
-			System.out.println(queryString);
+			//(queryString);
 			ResultSet one = stmt.executeQuery(queryString);	
-			System.out.println("count"+one.getInt(1));
+			//("count"+one.getInt(1));
+			one.next();
+			int val = one.getInt(1);
 			
-			while(one.next()) {
-				if (one.getInt(1) > 0) return true;
+			//while(one.next()) {
+				if (val > 0) return true;
 				else return false; 
-			}
-		} catch (SQLException e) {System.out.println(e);}
+			//}
+		} catch (SQLException e) {//(e);}
 		return true;
 	}
-	
+	}
 	public static Boolean eventDateFull(String date, String user,String type)  {  
-		System.out.println("inside event date full"+date+":"+user+":"+type);
+		//("inside event date full"+date+":"+user+":"+type);
 		String old_date=date;
 		String feventDate=" ";
 		
@@ -272,16 +274,23 @@ public  class EventDAO {
 		try {
 			stmt = conn.createStatement();
 			String queryString = "SELECT COUNT(*) FROM cruise_activity.EVENTS WHERE EVENT_DATE='"+feventDate+"' AND USER = '"+user+"' AND TYPE='"+"show"+"'";
-			System.out.println("SELECT COUNT(*) FROM cruise_activity.EVENTS WHERE EVENT_DATE='"+feventDate+"' AND USER = '"+user+"' AND TYPE='"+"show"+"'");
+			//("SELECT COUNT(*) FROM cruise_activity.EVENTS WHERE EVENT_DATE='"+feventDate+"' AND USER = '"+user+"' AND TYPE='"+"show"+"'");
 			ResultSet one = stmt.executeQuery(queryString);	
-			System.out.println(one.getInt(1));
-			System.out.println();
+			////(one.getInt(1));
+			one.next();
+			int val = one.getInt(1);
+			
+			//();
 
-			while(one.next()) {
-				if (one.getInt(1) > 1) return true;
+			//while(one.next()) {
+				if (val > 1) return true;
 				else return false; 
-			}
-		} catch (SQLException e) {System.out.println(e);}
+			//}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		
+		
+	}
 		return true;
 	}
 
@@ -289,7 +298,7 @@ public  class EventDAO {
 		// TODO Auto-generated method stub
 		
 		String query = "SELECT * FROM cruise_activity.events where EVENT_DATE > '"+feventDate+"' && START_TIME > '"+eventTime+"' && COORDINATOR = '"+cname+"'";	
-		System.out.println(query);
+		//(query);
 		return ReturnMatchingEventsList(query);
 	}
 	

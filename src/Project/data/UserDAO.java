@@ -29,7 +29,7 @@ public class UserDAO {
 					+ user.getMemtype() + "')";
 					
 			stmt.executeUpdate(insertUser);	
-			System.out.println(stmt);
+			//(stmt);
 			conn.commit(); 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -47,7 +47,7 @@ public class UserDAO {
 			while (userList.next()) {
 				mtype = userList.getString("MEM_TYPE");
 			}
-			System.out.println("MEM_TYPE = "+mtype);
+			//("MEM_TYPE = "+mtype);
 		} catch (SQLException e) {}  
 		return mtype;
 	}
@@ -90,21 +90,6 @@ public class UserDAO {
 		} catch (SQLException e) {}  
 		return true;
 	}
-	public static Boolean duplicateMemtype(String role) {  
-		Statement stmt = null;   
-		Connection conn = null;  
-		conn = SQLConnection.getDBConnection();  
-		ArrayList<User> userListInDB = new ArrayList<User>();
-		try {
-			stmt = conn.createStatement();
-			String searchUser = " SELECT * from CATERING.SYSTEM_USER WHERE role = '"+role+"'";
-			ResultSet userList = stmt.executeQuery(searchUser);
-			if (!userList.next()) return false;
-			 
-		} catch (SQLException e) {}  
-		return true;
-	}
-	
 	public static Boolean duplicateId(String id) {  
 		Statement stmt = null;   
 		Connection conn = null;  
@@ -119,7 +104,7 @@ public class UserDAO {
 		return true;
 	}
 	public static ArrayList<User> Searchusername(String username) {
-		System.out.println(username);
+		//(username);
 		return returnMatcingusers("SELECT * from cruise_activity.system_user WHERE username='"+username+"'");
 	}
 	private static ArrayList<User> returnMatcingusers(String queryString) {
@@ -147,7 +132,7 @@ public class UserDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(userListInDB.get(0));
+		//(userListInDB.get(0));
 		return userListInDB;
 	}
 	
@@ -160,7 +145,7 @@ public class UserDAO {
 		
 		try {
 			stmt = conn.createStatement();
-			System.out.println("argument passed"+username);
+			//("argument passed"+username);
 			String searchUser = " SELECT * from cruise_activity.system_user WHERE USERNAME = '"+username+"'";
 			ResultSet user = stmt.executeQuery(searchUser);
 			
@@ -204,7 +189,7 @@ public class UserDAO {
 		// TODO Auto-generated method stub
 		
 		Statement stmt = null;
-		System.out.println("UPDATE cruise_activity.system_user SET USERNAME = '"+user.getUsername()+"', FIRSTNAME='"+user.getFirstname()+"',LASTNAME='"+user.getLastname()+"',PASSWORD='"+user.getPassword()+"',MEM_TYPE='"+user.getMemtype()+"',PHONE='"+user.getPhone()+"',EMAIL='"+user.getEmail()+"',ROOM_NUMBER='"+user.getRoomno()+"',DECK_NUMBER='"+user.getDeckno()+"' WHERE USERNAME='"+username+"'");
+		//("UPDATE cruise_activity.system_user SET USERNAME = '"+user.getUsername()+"', FIRSTNAME='"+user.getFirstname()+"',LASTNAME='"+user.getLastname()+"',PASSWORD='"+user.getPassword()+"',MEM_TYPE='"+user.getMemtype()+"',PHONE='"+user.getPhone()+"',EMAIL='"+user.getEmail()+"',ROOM_NUMBER='"+user.getRoomno()+"',DECK_NUMBER='"+user.getDeckno()+"' WHERE USERNAME='"+username+"'");
 		Connection conn = SQLConnection.getDBConnection();
 		try {
 		stmt = conn.createStatement();
@@ -212,8 +197,8 @@ public class UserDAO {
 		//boolean res = stmt.execute(updateStmt);
 		int rows = stmt.executeUpdate("UPDATE cruise_activity.system_user SET USERNAME = '"+user.getUsername()+"', FIRSTNAME='"+user.getFirstname()+"',LASTNAME='"+user.getLastname()+"',PASSWORD='"+user.getPassword()+"',MEM_TYPE='"+user.getMemtype()+"',PHONE='"+user.getPhone()+"',EMAIL='"+user.getEmail()+"',ROOM_NUMBER='"+user.getRoomno()+"',DECK_NUMBER='"+user.getDeckno()+"' WHERE USERNAME= '"+username+"'");
 		conn.commit();
-		System.out.println("rows impacted: " + rows);
-		System.out.println(stmt);
+		//("rows impacted: " + rows);
+		//(stmt);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

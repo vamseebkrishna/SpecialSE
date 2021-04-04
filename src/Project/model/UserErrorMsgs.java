@@ -37,7 +37,7 @@ public class UserErrorMsgs {
 			errorMsg = "Please correct the following errors";
 		}
 		else {
-			//System.out.println("no errors");
+			////("no errors");
 		}
 	}
 	

@@ -10,8 +10,8 @@
 		<div class = header>
 			<a href="#"><h1>Cruise Ship Activity Coordination System</h1></a>
 			<ul>
-				<li><a href="login.jsp">Login</a></li>
-				<li><a href="register.jsp">Register</a>
+				<li><input type="button" onclick="location.href='login.jsp';" value="Login" /></li>
+				<li><input type="button" onclick="location.href='register.jsp';" value="Register" /></li>
 			</ul>
 		</div>
 	</div>

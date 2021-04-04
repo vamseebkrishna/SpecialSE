@@ -21,7 +21,7 @@
     <tr>
     <td> Event time: </td>
     <td> <input name="event_time" value="<c:out value='${dateevent.m_start_time}'/>" class="text16"> </td>
-  	<td> <input name="event_time_error"  value=<c:out value='${errorMsgs.m_start_timeError}'/>"  class="errorMsg"> </td>
+  	<td> <input name="event_time_error"  value="<c:out value='${errorMsgs.m_start_timeError}'/>"  class="errorMsg"> </td>
     </tr>
 </table>
   <input type ="submit" value="Submit">

@@ -7,6 +7,9 @@
 <link href="myStyle.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<header class="regHeader">
+<h1><a href="<c:url value='/'  />">Registration</a></h1>
+</header>
 <input name="errMsg" value="<c:out value='${errorMsgs.errorMsg}'/>" class="errorPane">
 <form action="<c:url value='UserController?action=register' />" method="post">
 			<table style="with: 100%">
@@ -53,7 +56,7 @@
 				<tr>
 				<td><label for="memtype">Membership Type</label></td>
 					<td>
-						<select name="memtype" id="cars">
+						<select name="memtype">
   							<option value="Passenger">Passenger</option>
   							<option value="Event Manager">Event Manager</option>
   							<option value="Event Coordinator">Event Coordinator</option>
